@@ -20,7 +20,8 @@ var bb = (function() {
       spanTagNames = ['color', 'style', 'b', 'i', 'u', 's'];
 
     if (tagName == 'code') {
-      el = document.createElement('code'); // some implementations might use pre
+      // some implementations might use pre
+      el = document.createElement('code');
     } else if (tagName == 'quote') {
       el = document.createElement('blockquote');
     } else if (allowURLs && tagName == 'img') {
@@ -32,11 +33,11 @@ var bb = (function() {
         el.setAttribute('src', tokens[1]);
       }
 
-      el.setAttribute('alt', '');  
+      el.setAttribute('alt', '');
     } else if (allowURLs && tagName == 'url') {
       el = document.createElement('a');
       el.setAttribute('href', tokens[1]);
-    } else if (spanTagNames.indexOf(tagName) != -1) {
+    } else if (spanTagNames.indexOf(tagName) >= 0) {
       el = document.createElement('span');
 
       if ((tagName == 'color' && isColor(tokens[1])) ||
@@ -79,7 +80,8 @@ var bb = (function() {
 
       if (!inTag && c == '[') {
         inTag = true;
-        isOpen = cn != '/'; // look ahead to see if this is an open tag or a close tag
+        // look ahead to see if this is an open tag or a close tag
+        isOpen = cn != '/';
         canSlash = true;
 
         if (writeText) {
@@ -88,7 +90,8 @@ var bb = (function() {
 
         if (tagStack.length > 0) {
           if (isOpen) {
-            tagNode = tagStack[tagStack.length - 1]; // peek
+            // peek
+            tagNode = tagStack[tagStack.length - 1];
           } else {
             tagNode = tagStack.pop();
           }
@@ -117,7 +120,7 @@ var bb = (function() {
         canSlash = false;
         writeText += c;
 
-        if (isOpen) {          
+        if (isOpen) {
           tagNode = convertTag(openTagName);
           tagStack.push(tagNode);
         }
@@ -147,8 +150,9 @@ var bb = (function() {
       newEl;
 
     for (var i = 0; i < children.length; i++) {
-      if (children[i].nodeType == Node.TEXT_NODE) { // 3
-        replacementNodes.push.apply(replacementNodes, parseTextNode(children[i], tagStack));
+      if (children[i].nodeType == Node.TEXT_NODE) {
+        replacementNodes.push.apply(replacementNodes,
+          parseTextNode(children[i], tagStack));
       } else {
         newEl = rparse(children[i], tagStack);
 
@@ -165,7 +169,7 @@ var bb = (function() {
       el.removeChild(el.firstChild);
     }
 
-    replacementNodes.forEach(function (n) {
+    replacementNodes.forEach(function(n) {
       el.appendChild(n);
     });
 
