@@ -10,7 +10,7 @@ It takes a snippet of the DOM:
 <p>This is a [color=green]test[/color].</p>
 ```
 
-and turns it into this:
+and converts all the BBCode tags to HTML:
 
 ```html
 <p>This is a <span style="color: green;">test</span>.</p>
@@ -30,4 +30,4 @@ bb.parse(element, {
 
 ##Options
 
-`allowUrls` defaults to false. When set to true, `allowURLs` enables [url][/url] and [img][/img] tags. This option should only be enabled in trusted environments.
+`allowURLs` defaults to false. When set to true, `allowURLs` enables [url][/url] and [img][/img] tags. This option should only be enabled in trusted environments.
